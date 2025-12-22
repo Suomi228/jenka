@@ -7,6 +7,7 @@ pipeline {
     
     environment {
         APP_NAME = 'adminka-app'
+        COMPOSE_PROJECT = 'adminka'
     }
     
     stages {
@@ -48,14 +49,14 @@ pipeline {
                     echo "Stopping and removing old app container..."
                     docker stop adminka-app || true
                     docker rm -f adminka-app || true
-                    docker compose stop app || true
-                    docker compose rm -f app || true
+                    docker compose -p ${COMPOSE_PROJECT} stop app || true
+                    docker compose -p ${COMPOSE_PROJECT} rm -f app || true
                 '''
                 
                 // Пересборка и запуск только сервиса app (без зависимостей)
                 sh '''
                     echo "Building and starting app..."
-                    docker compose up -d --build --force-recreate --no-deps app
+                    docker compose -p ${COMPOSE_PROJECT} up -d --build --force-recreate --no-deps app
                 '''
                 
                 // Удаление старых неиспользуемых образов
