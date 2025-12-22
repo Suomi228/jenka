@@ -21,14 +21,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo '🔨 Сборка проекта...'
-                bat 'mvn clean compile -DskipTests'
+                sh 'mvn clean compile -DskipTests'
             }
         }
         
         stage('Test') {
             steps {
                 echo '🧪 Запуск тестов...'
-                bat 'mvn test'
+                sh 'mvn test'
             }
             post {
                 always {
@@ -41,7 +41,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo '📦 Создание JAR файла...'
-                bat 'mvn package -DskipTests'
+                sh 'mvn package -DskipTests'
             }
         }
         
