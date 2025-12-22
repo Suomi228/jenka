@@ -64,6 +64,11 @@ pipeline {
                     docker images ${IMAGE_NAME} --format "{{.Tag}}" | grep -v latest | grep -v ${IMAGE_TAG} | xargs -r -I {} docker rmi ${IMAGE_NAME}:{} || true
                 '''
                 
+                // Создание сети если не существует
+                sh '''
+                    docker network create monitoring 2>/dev/null || true
+                '''
+                
                 // Запуск нового контейнера
                 sh '''
                     echo "Starting new container..."
