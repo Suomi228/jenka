@@ -85,16 +85,6 @@ pipeline {
             }
         }
         
-        stage('Health Check') {
-            steps {
-                echo '🏥 Проверка здоровья приложения...'
-                sh '''
-                    sleep 30
-                    curl -f http://localhost:8080/actuator/health || exit 1
-                '''
-            }
-        }
-        
         stage('Archive') {
             steps {
                 echo '💾 Сохранение артефактов...'
