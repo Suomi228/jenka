@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
-    private Long id;
+public class CreateUserDto {
     
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
@@ -24,5 +23,4 @@ public class UserDto {
     @Size(max = 200, message = "Description must not exceed 200 characters")
     private String description;
 }
-
 
