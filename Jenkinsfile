@@ -6,7 +6,6 @@ pipeline {
     }
     
     environment {
-        APP_NAME = 'adminka-app'
         COMPOSE_PROJECT = 'adminka'
     }
     
@@ -47,8 +46,6 @@ pipeline {
                 // Остановка и удаление старого контейнера app
                 sh '''
                     echo "Stopping and removing old app container..."
-                    docker stop adminka-app || true
-                    docker rm -f adminka-app || true
                     docker compose -p ${COMPOSE_PROJECT} stop app || true
                     docker compose -p ${COMPOSE_PROJECT} rm -f app || true
                 '''
