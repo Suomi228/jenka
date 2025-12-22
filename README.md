@@ -186,11 +186,23 @@ docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
      - Branch: `*/main`
      - Script Path: `Jenkinsfile`
 
+### CI/CD Pipeline
+
+Pipeline выполняет следующие этапы:
+
+1. **Setup** — проверка окружения (Java, Docker)
+2. **Build JAR** — сборка приложения через Maven
+3. **Test** — запуск тестов
+4. **Build Docker Image** — создание Docker образа
+5. **Deploy** — остановка старого контейнера, удаление старых образов, запуск нового
+6. **Health Check** — проверка работоспособности приложения
+7. **Archive** — сохранение артефактов
+
 ### Автоматический запуск при Push в GitHub
 
 #### Вариант 1: Poll SCM (простой, работает локально)
 
-Jenkins сам проверяет репозиторий каждые 5 минут. Уже настроено в Jenkinsfile.
+Jenkins сам проверяет репозиторий каждые 2 минуты. Уже настроено в Jenkinsfile.
 
 #### Вариант 2: GitHub Webhook (требует публичный доступ к Jenkins)
 
