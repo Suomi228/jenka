@@ -50,10 +50,10 @@ pipeline {
                     docker compose rm -f app || true
                 '''
                 
-                // Пересборка и запуск только сервиса app
+                // Пересборка и запуск только сервиса app (без зависимостей)
                 sh '''
                     echo "Building and starting app..."
-                    docker compose up -d --build --force-recreate app
+                    docker compose up -d --build --force-recreate --no-deps app
                 '''
                 
                 // Удаление старых неиспользуемых образов
