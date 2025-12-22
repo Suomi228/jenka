@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9-eclipse-temurin-17'
+            args '-v /root/.m2:/root/.m2'  // Кэширование Maven зависимостей
+        }
+    }
     
     triggers {
         pollSCM('H/1 * * * *')
@@ -11,13 +16,6 @@ pipeline {
     }
     
     stages {
-        stage('Checkout') {
-            steps {
-                echo '📥 Получение исходного кода...'
-                checkout scm
-            }
-        }
-        
         stage('Build') {
             steps {
                 echo '🔨 Сборка проекта...'
@@ -32,7 +30,6 @@ pipeline {
             }
             post {
                 always {
-                    // Публикация результатов тестов
                     junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
                 }
             }
@@ -59,10 +56,6 @@ pipeline {
         }
         failure {
             echo '❌ Сборка провалилась!'
-        }
-        always {
-            echo '🧹 Очистка рабочего пространства...'
-            cleanWs()
         }
     }
 }
