@@ -226,3 +226,34 @@ docker-compose down
 ```bash
 docker-compose down -v
 ```
+
+## Устранение неполадок
+
+### Порты заняты
+
+Если при запуске появляется ошибка "port is already allocated", освободите порты:
+
+**Windows (PowerShell от имени администратора):**
+
+```powershell
+# Найти процесс на порту (например, 8080)
+netstat -ano | findstr :8080
+
+# Убить процесс по PID (заменить 12345 на реальный PID)
+taskkill /PID 12345 /F
+```
+
+**Linux/macOS:**
+
+```bash
+# Найти и убить процесс на порту
+sudo lsof -ti:8080 | xargs kill -9
+```
+
+**Используемые порты:**
+
+- `8080` — Приложение
+- `9090` — Prometheus
+- `3000` — Grafana
+- `8081` — Jenkins
+- `50000` — Jenkins Agent
