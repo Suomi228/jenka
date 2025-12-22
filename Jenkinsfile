@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9-eclipse-temurin-17'
-            args '-v /root/.m2:/root/.m2'  // Кэширование Maven зависимостей
-        }
-    }
+    agent any
     
     triggers {
         pollSCM('H/1 * * * *')
@@ -16,17 +11,25 @@ pipeline {
     }
     
     stages {
+        stage('Setup') {
+            steps {
+                echo '⚙️ Проверка окружения...'
+                sh 'java -version || echo "Java not found"'
+                sh 'chmod +x ./mvnw'
+            }
+        }
+        
         stage('Build') {
             steps {
                 echo '🔨 Сборка проекта...'
-                sh 'mvn clean compile -DskipTests'
+                sh './mvnw clean compile -DskipTests'
             }
         }
         
         stage('Test') {
             steps {
                 echo '🧪 Запуск тестов...'
-                sh 'mvn test'
+                sh './mvnw test'
             }
             post {
                 always {
@@ -38,7 +41,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo '📦 Создание JAR файла...'
-                sh 'mvn package -DskipTests'
+                sh './mvnw package -DskipTests'
             }
         }
         

@@ -1,0 +1,11 @@
+# Handle line endings automatically for files detected as text
+* text=auto
+
+# Force Unix line endings for shell scripts
+*.sh text eol=lf
+mvnw text eol=lf
+
+# Force Windows line endings for Windows scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
