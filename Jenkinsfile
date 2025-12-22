@@ -43,9 +43,11 @@ pipeline {
             steps {
                 echo '🚀 Деплой приложения...'
                 
-                // Остановка старого контейнера app
+                // Остановка и удаление старого контейнера app
                 sh '''
-                    echo "Stopping old app container..."
+                    echo "Stopping and removing old app container..."
+                    docker stop adminka-app || true
+                    docker rm -f adminka-app || true
                     docker compose stop app || true
                     docker compose rm -f app || true
                 '''
